@@ -38,6 +38,24 @@ router.post("/", validateAction, (req, res) => {
     .catch((err) => res.status(500).json({ error: "error" }))
 })
 
+//PUT request
+
+router.put("/:id", validateAction, (req, res) => {
+  actions
+    .update(req.params.id, req.body)
+    .then((action) => res.status(200).json(action))
+    .catch((err) => res.status(500).json({ error: "error" }))
+})
+
+//Delete request
+router.delete("/:id", (req, res) => {
+  actions
+    .remove(req.params.id)
+    .then((action) => res.status(200).json({ message: `action ${req.params.id} deleted` }))
+    .catch((err) => res.status(500).json({ error: "error" }))
+})
+
+
 //Middleware
 function validateAction(req, res, next) {
   if (req.body.project_id && req.body.description) {
@@ -48,5 +66,6 @@ function validateAction(req, res, next) {
       .json({ message: "missing required project id or description field" })
   }
 }
+
 
 module.exports = router
