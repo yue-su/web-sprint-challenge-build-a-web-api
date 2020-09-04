@@ -8,7 +8,8 @@ server.use(logger)
 server.use(express.json())
 
 server.get("/", (req, res) => {
-  res.send(`<h2>Sprint Chanllege</h2>`)
+  const message = process.env.MOTD || `Happy Sprint Day`
+  res.status(200).json({message : message})
 })
 
 server.use('/api/actions', actionsRouter)
