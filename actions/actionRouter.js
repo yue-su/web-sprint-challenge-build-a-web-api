@@ -4,6 +4,8 @@ const actions = require('../data/helpers/actionModel')
 
 const router = express.Router()
 
+//GET request
+
 router.get('/', (req, res) => {
     actions
       .get(null)
@@ -27,6 +29,24 @@ router.get('/:id', (req, res) => {
       )
 })
 
+//POST request
 
+router.post("/", validateAction, (req, res) => {
+  actions
+    .insert(req.body)
+    .then((action) => res.status(201).json(action))
+    .catch((err) => res.status(500).json({ error: "error" }))
+})
+
+//Middleware
+function validateAction(req, res, next) {
+  if (req.body.project_id && req.body.description) {
+    next()
+  } else {
+    res
+      .status(400)
+      .json({ message: "missing required project id or description field" })
+  }
+}
 
 module.exports = router
