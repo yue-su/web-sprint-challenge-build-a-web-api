@@ -39,6 +39,23 @@ router.post("/", validateProject, (req, res) => {
     .catch((err) => res.status(500).json({ error: "error" }))
 })
 
+// PUT request
+
+router.put('/:id', (req, res) => {
+    console.log(req.body)
+    projects
+      .update(req.params.id,req.body)
+      .then((project) => res.status(200).json(project))
+      .catch((err) => res.status(500).json({ error: "error" }))
+})
+
+//Delete request
+
+router.delete('/:id', (req, res) => {
+    projects.remove(req.params.id)
+    .then(project => res.status(200).json({message: "project deleted"}))
+})
+
 // Middleware
 
 function validateProject(req, res, next) {
